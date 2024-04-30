@@ -1,127 +1,153 @@
-// Get references to elements
-const startButton = document.getElementById('start-game1');
-const gameContainer = document.getElementById('game-container');
-const menu = document.getElementById('menu');
-const storyline = document.getElementById('storyline');
-const storyText = document.getElementById('story-text');
-const optionsButton1 = document.getElementById('option1');
-const optionsButton2 = document.getElementById('option2');
-const optionsButton3 = document.getElementById('option3');
-const optionsButton4 = document.getElementById('option4');
-const messageContainer = document.getElementById('message-container');
-const exitButton = document.getElementById('exit-button');
+const startMenu = document.getElementById('start-menu');
+        const gameScreen = document.getElementById('game-menu');
+        const storyline = document.getElementById('storyline');
+        const startButton = document.getElementById('start-game');
+        const highScoresButton = document.getElementById('high-scores');
+        const exitButton = document.getElementById('exit-game');
+        const optionsContainer = document.getElementById('options-container');
 
-// Storyline data
-const storylineData = [
+        // Msin storyline data stored here, scenarios
+const gameData = [
     {
-        text: "You awake to find yourself on the cold floor of the dungeon in castle Voldesdad. There is a key to unlock the cell you are in but it is out of reach from the steel cage and it appears to be broken, there is a magical book in your cell however, what do you do? ",
-        option: ["Force open the cell door", "Use a spell from book to repair the key,", "Shout for help", "Use pickpocket on lock"],
-        correctOptionIndex: 2
+        storyline: "As you look around, the stench of the dank air in the dungeon hits your nose. The flickering light of the torch in the distance casts shadows on the walls, screams can be heard through the stone halls. You are in a prison cell. What do you do?",
+        options: [
+            { text: "Look around the cell for any clues", correct: false },
+            { text: "Try to pick the lock", correct: true },
+            { text: "Listen for the sound of guards", correct: false },
+            { text: "Shout out for help", correct: false }
+        ]
     },
     {
-        text: "The key has been repaired! But it is out of your reach as you are in a cell, what do you do?",
-        option: ["", "Find a bridge", "Build a boat", "Follow the river upstream"],
-        correctOptionIndex: 1
+        storyline: "You successfully pick the lock, you cautiously make your way out of the cell. What's your next move?",
+        options: [
+            { text: "Head towards the light in the corridor", correct: true },
+            { text: "Explore the dark passages", correct: false },
+            { text: "Fight the guards unarmed", correct: false },
+            { text: "Try to find a weapon", correct: false }
+        ]
     },
-    
-	// stages
+    {
+        storyline: "You head towards the source of light to find yourself at a crossroad. Which way do you go?",
+        options: [
+            { text: "Turn left", correct: false },
+            { text: "Turn right", correct: true },
+            { text: "Go straight", correct: false },
+            { text: "Go back", correct: false }
+        ]
+    },
+    {
+        storyline: "You turn right and continue cautiously down the corridor. You encounter a locked door, what's your next move?",
+        options: [
+            { text: "Try to break it down", correct: false },
+            { text: "Look for a key", correct: false },
+            { text: "Look for another way around", correct: true },
+            { text: "Call out for help", correct: false }
+        ]
+    },
+	{
+        storyline: "You've found a hidden passage behind a piece of tapestry on the wall. It leads to a staircase going upstairs. What do you do?",
+        options: [
+            { text: "Go through hidden passage and go upstairs", correct: true },
+            { text: "Go through hidden pssage and go downstairs", correct: false },
+            { text: "Stay here and explore the current area", correct: false },
+            { text: "HIde in the hidden passage", correct: false }
+        ]
+    },
+	{
+        storyline: "You go through the passageway and go upstairs, as go up the staircase you notice there are guards walking down the staircase, what do you do?",
+        options: [
+            { text: "Confront the guards", correct: false },
+            { text: "Use invisibility cloke and sneak past the guards", correct: false },
+            { text: "Hide and wait for the guards to pass", correct: true },
+            { text: "Retreat back to the other level", correct: false }
+        ]
+    },
+	{
+        storyline: "You hide in the hidden passage and wait for the guards to pass you. You've now reached the castle walls. How do you get past them?",
+        options: [
+            { text: "Attempt to dig a tunnel in the ground", correct: true },
+            { text: "Use catapult to launch yourself out the castle", correct: false },
+            { text: "Ask the guards to open the gates", correct: false },
+            { text: "Use catapult to blast a hole in the gates", correct: true }
+        ]
+    },
+	{
+        storyline: "Congratulations! You've escaped the castle!!",
+        
+    },
 	
 ];
 
-let currentStage = 0;
+        let currentGameDataIndex = 0;
 
-function startGame() {
-    // Hide the menu and show the storyline
-    menu.style.display = 'none';
-    storyline.style.display = 'block';
-    displayStage();
+        //  Function startGame defined
+        function startGame() {
+            // Hide start menu, show game screen
+            startMenu.style.display = 'none';
+            gameScreen.style.display = 'block';
+
+            // Display initial storyline text and options
+            displayGameData();
+        }
+
+        // Display current game data (storyline and options)
+        function displayGameData() {
+			const currentGameData = gameData[currentGameDataIndex];
+			storyline.textContent = currentGameData.storyline;
+
+			// Clear previous options
+			optionsContainer.innerHTML = '';
+
+			// Display options
+			currentGameData.options.forEach(optionData => {
+				const optionButton = document.createElement('button');
+				optionButton.textContent = optionData.text;
+				optionButton.classList.add('option');
+				optionButton.addEventListener('click', handleOption);
+				optionsContainer.appendChild(optionButton);
+			});
 }
 
-function displayStage() {
-    storyText.textContent = storylineData[currentStage].text;
-    for (let i = 0; i < optionButtons.length; i++) {
-        optionButtons[i].textContent = storylineData[currentStage].options[i];
-        optionButtons[i].addEventListener('click', checkAnswer);
-    }
-}
+        // Handle the users option
+		function handleOption(event) {
+			const selectedText = event.target.textContent;
+			const currentGameData = gameData[currentGameDataIndex];
 
+    // Find the selected option in the current game data
+    const selectedOption = currentGameData.options.find(option => option.text === selectedText);
 
-function checkAnswer(event) {
-    const selectedOptionIndex = Array.from(optionButtons).indexOf(event.target);
-    if (selectedOptionIndex === storylineData[currentStage].correctOptionIndex) {
-        if (currentStage < storylineData.length - 1) {
-            // Move to the next stage
-            currentStage++;
-            displayStage();
+    if (selectedOption && selectedOption.correct) {
+        // Correct option chosen
+        alert("You chose the correct option! Now what?");
+        // Move to the next set of options if available
+        if (currentGameDataIndex < gameData.length - 1) {
+            currentGameDataIndex++;
+            displayGameData();
         } else {
-            endGame("Congratulations! You've completed the game!");
+            // No more game data, end game or show victory message
+            alert("Congratulations! You've escaped the castle!");
+            resetGame();
         }
     } else {
-        const wrongAnswerMessage = document.createElement('p');
-        wrongAnswerMessage.textContent = "Wrong answer.";
-		
-		
-
-        options.innerHTML = '';
-
-        options.appendChild(wrongAnswerMessage);
-        options.appendChild(exitButton);
+        // Incorrect option chosen
+        alert("Wrong choice! Back to the start.");
+		resetGame();
     }
-    }
-
-
-function endGame(message) {
-    // Display message
-    alert(message);
-    // Reset game to start
-    resetGame();
 }
 
-function resetGame() {
-    // Show the menu and hide the storyline
-    menu.style.display = 'block';
-    storyline.style.display = 'none';
-    // Reset current stage
-    currentStage = 0;
-}
+        // Reset the game back to main menu
+        function resetGame() {
+            currentGameDataIndex = 0;
+            startMenu.style.display = 'block';
+            gameScreen.style.display = 'none';
+        }
 
-startButton.addEventListener('click', function() {
-    console.log("Start button clicked!");
-    startGame();
-});
-
-optionsButton1.addEventListener('click', handleOptionButton1Click);
-optionsButton2.addEventListener('click', handleOptionButton2Click);
-optionsButton3.addEventListener('click', handleOptionButton3Click);
-optionsButton4.addEventListener('click', handleOptionButton4Click);
-
-function handleOptionButton1Click() {
-    // Output message to the user
-     const messageElement = document.createElement('div');
-    messageElement.textContent = "Wrong choice";
-    messageElement.classList.add('error-message'); // Add a CSS class for styling
-    
-    messageContainer.innerHTML = '';
-    
-    messageContainer.appendChild(messageElement);
-}
-
-function handleOptionButton2Click() {
-    // Output message to the user
-     const messageElement2 = document.createElement('div');
-    messageElement2.textContent = "Right choice!";
-    messageElement2.classList.add('success-message'); // Add a CSS class for styling
-    
-    messageContainer.innerHTML = '';
-    
-    messageContainer.appendChild(messageElement2);
-}
-
-exitButton.addEventListener('click', exitGame);
-
-function exitGame() {
-	// Display exit message
-    alert("You have exited the game.");
-    // Reset game to start
-    resetGame();
-}
+        // Event listeners for the buttons
+        startButton.addEventListener('click', startGame);
+        highScoresButton.addEventListener('click', () => alert("High Scores clicked")); // Implement high scores functionality
+        exitButton.addEventListener('click', () => {
+            // Exit game
+            alert("Exiting game...");
+            resetGame();
+        });
+		

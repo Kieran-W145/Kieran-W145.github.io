@@ -4,6 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Castle Escape</title>
+	<style>
+	 .option {
+            margin: 10px;
+			border-radius: 10px;
+			padding: 10px 20px;
+			background-color: black;
+			color: gold;
+			border: none;
+			border: none;
+			cursor: pointer;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+        }
+		
+		.option-exit {
+			display: block;
+            margin: 10px;
+			margin-top: 10px;
+			margin-left: 10px;
+			border-radius: 10px;
+			padding: 10px;
+			background-color: black;
+			color: gold;
+			border: none;
+			border: none;
+			cursor: pointer;
+			text-align:center;
+			margin-bottom: 1px;
+        }
+		
+	</style>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -16,25 +48,27 @@
         </ul>
     </nav>
 
+<div class="background">
+   <div class="container2">
+	
+	</div>
+</div>
 
 <h1 class="my-heading">Welcome to Castle Escape...</h1>
 <div id="game-container">
-        <div id="menu">
-            <button id="start-game1">Start Game</button>
-            <button id="start-game2">High Scores</button>
-            <button id="start-game3">Exit Game</button>
+        <div id="start-menu">
+            <button id="start-game" class="option">Start Game</button>
         </div>
 		
-		<div id="storyline" style="display: none;">
-            <p id="story-text">Storyline text will appear here.</p>
-            <div id="options">
-			<div id="message-container"></div>
-                <button id="option1" class="option1">Force open the cell door</button>
-                <button class="option2">Use a spell from book to repair the key</button>
-                <button class="option3">Shout for help</button>
-                <button class="option4">Use pickpocket on lock</button>
-				<button id="exit-game" class="exit-button">Exit Game</button>
-            </div>
+		<div id="game-menu" style="display: none;">
+            <p id="storyline" class="mytext">Storyline text will appear here</p>
+			<div id="options-container">
+                <button id="option" class="option"></button>
+                <button id="option" class="option"></button>
+                <button id="option" class="option"></button>
+                <button id="option" class="option"></button>
+			</div>
+			<button id="exit-game" class="option-exit">Exit Game</button>
         </div>
     </div>
 	
